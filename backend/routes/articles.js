@@ -1,0 +1,56 @@
+const router = require('express').Router();
+let Article = require('../models/articles');
+
+router.route('/').get((req, res) => {
+    Article.find()
+        .then(articles => res.json(articles))
+        .catch(err => res.status(400).json('Error in article get: ' + err));
+});
+
+router.route('/add').post((req, res) => {
+    const headline = req.body.headline;
+    const excerpt = req.body.excerpt;
+    const content = req.body.content;
+    const date = Date.parse(req.body.date);
+    const user = req.body.user;
+    const image = req.body.image;
+    const caption = req.body.caption;
+
+    const newArticle = new Article ({ headline, excerpt, content, date, user, image, caption })
+
+    newArticle.save()
+        .then(() => res.json('Article added!'))
+        .catch(err => res.status(400).json('Error in article save: ' + err));
+})
+
+router.route('/:id').get((req, res) => {
+    Article.findById(req.params.id)
+        .then(article => res.json(article))
+        .catch(err => res.status(400).json('Error getting article: ' + err));
+})
+
+router.route('/:id').delete((req, res) => {
+    Article.findByIdAndDelete(req.params.id)
+        .then(() => res.json('Article deleted'))
+        .catch(err => res.status(400).json('Error deleting article: ' + err));
+})
+
+router.route('/update/:id').post((req, res) => {
+    Article.findById(req.params.id)
+        .then(article => {
+            article.headline = req.body.headline;
+            article.excerpt = req.body.excerpt;
+            article.content = req.body.content;
+            article.date = Date.parse(req.body.date);
+            article.user = req.body.user;
+            article.image = req.body.image;
+            article.caption = req.body.caption;
+
+            article.save()
+                .then(() => res.json('Article updated!'))
+                .catch(err => res.status(400).json('Error updating article: ' + err));
+        })
+
+})
+
+module.exports = router;
