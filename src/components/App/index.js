@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,10 +11,14 @@ import Resources from '../Resources';
 import Meetings from '../Meetings';
 import Inequity from '../Inequity';
 import Admin from '../Admin';
+import CreateArticle from '../CreateArticle';
+import UpdateArticle from '../UpdateArticle';
+import CreateMeeting from '../CreateMeeting';
+import UpdateMeeting from '../UpdateMeeting';
 
-import * as ROUTES from '../../constants/routes'
+import * as ROUTES from '../../constants/routes';
 
-const App = () => (
+class App extends Component {
 
     <Router>
         <Navigation />
@@ -24,8 +28,13 @@ const App = () => (
         <Route path={ROUTES.MEETINGS} component={Meetings} />
         <Route path={ROUTES.INEQUITY} component={Inequity} />
         <Route path={ROUTES.ADMIN} component={Admin} />
+        <Route path={ROUTES.CREATE_ARTICLE} component={CreateArticle} />
+        <Route path={ROUTES.UPDATE_ARTICLE} component={UpdateArticle} />
+        <Route path={ROUTES.CREATE_MEETING} component={CreateMeeting} />
+        <Route path={ROUTES.UPDATE_MEETING} component={UpdateMeeting} />
         <Footer />
     </Router>
-)
+    
+}
 
 export default App;
